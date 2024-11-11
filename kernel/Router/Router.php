@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Router;
+namespace App\Kernel\Router;
 
 class Router
 {
@@ -29,6 +29,7 @@ class Router
             $controller = new $controller();
             call_user_func([$controller, $action]);
         } else {
+            call_user_func($route->getAction());    
             // если передают в Route::get // Route::post анонимную функцию
         }
         // $route->getAction()();
