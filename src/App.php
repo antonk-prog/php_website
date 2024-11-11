@@ -2,14 +2,17 @@
 
 namespace App;
 
+use App\Router\Router;
+
 class App
 {
-    public function run() : void
+    public function run(): void
     {
-        $routes = require_once APP_PATH.'/config/routes.php';
+        $router = new Router(); 
+        $method = $_SERVER["REQUEST_METHOD"];
 
         $uri = $_SERVER['REQUEST_URI'];
 
-        $routes[$uri]();
-    }
+        $router->dispatch($uri, $method);
+    } 
 }

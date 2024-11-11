@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 define('APP_PATH', __DIR__);
 
-require_once APP_PATH . '/vendor/autoload.php';
+require_once APP_PATH.'/vendor/autoload.php';
 
 use App\App;
 
