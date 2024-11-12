@@ -1,10 +1,27 @@
 <?php
-
 namespace App\Controllers;
+use App\Kernel\Controller\Controller;
+use App\Kernel\Validator\Validator;
 
-class MovieController {
+class MovieController extends Controller{
     public function index() : void {
-        include_once APP_PATH.'/views/pages/movies.php';
+        $this->view('movies');
 
+    }
+
+    public function add() : void {
+        $this->view('admin/movies/add');
+    }
+
+    public function store() : void {
+        $validation = $this->request()->validate([
+            'name' => ['required', 'min:3', 'max:50']
+        ]);
+
+        if (! $validation) {
+            dd('Validation failed', $this->request()->errors());
+        }
+
+        dd('Validation passed');
     }
 }

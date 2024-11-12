@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Kernel\Router;
-
+use App\Kernel\Http\Request;
+use App\Kernel\View\View;
 class Router
 {
     private array $routes = [
@@ -9,40 +10,43 @@ class Router
         'POST' => [],
     ];
 
-    public function __construct()
-    {
+    public function __construct(
+        private View $view, 
+        private Request $request,
+    )
+    { 
         $this->initRoutes();
     }
 
     public function dispatch(string $uri, string $method): void
     {
         $route = $this->findRoute($uri, $method);
-
         if (! $route) {
             $this->notFound();
             exit;   
         }
         if (is_array($route->getAction())){
+            // $controller - путь до класса
+            // $action - название функции класса
             [$controller, $action] = $route->getAction();
 
-            
+            // создается movies или home контролеры
             $controller = new $controller();
+            call_user_func([$controller, 'setView'], $this->view);
+            call_user_func([$controller,'setRequest'], $this->request);
             call_user_func([$controller, $action]);
+
         } else {
             call_user_func($route->getAction());    
             // если передают в Route::get // Route::post анонимную функцию
         }
-        // $route->getAction()();
-        // dd($route[$uri]());    
+
     }
 
     private function findRoute(string $uri, string $method) : Route|false {
         if (!isset($this->routes[$method][$uri])) {
             return false;
         }
-
-        // dd($this->routes[$method][$uri]);
-        // dd(get_class($this->routes[$method][$uri]));
         return $this->routes[$method][$uri];
     }
 
