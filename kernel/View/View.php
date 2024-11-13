@@ -3,8 +3,13 @@
 namespace App\Kernel\View;
 
 use App\Kernel\Exceptions\ViewNotFoundException;
+use App\Kernel\Session\Session;
 
 class View {
+
+    public function __construct(
+        private Session $session
+    ) {}
     public function page(string $name) : void {
         // в том файле, для которого будет вызываться include_once, можно будет обратиться к переменной view как к глобальной
         // в данном случае при обращении к view мы получим доступ к экземпляру View
@@ -14,9 +19,9 @@ class View {
         if (!file_exists($viewPath)) {
             throw new ViewNotFoundException("View $name not found");
         }
-        extract([
-            'view' => $this,
-        ]);
+
+        extract($this->defaultData());
+        
         include_once $viewPath;
     }
     public function component(string $name) : void {
@@ -26,5 +31,12 @@ class View {
             return;
         }
         include_once $componentPath;
+    }
+
+    private function defaultData() : array {
+        return [
+            'view' => $this,
+            'session' => $this->session
+        ];
     }
 }

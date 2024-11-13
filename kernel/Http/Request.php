@@ -2,7 +2,7 @@
 namespace App\Kernel\Http;
 
 use App\Kernel\Validator\Validator;
-class Request {
+class Request implements RequestInterface{
     private Validator $validator;
     public function __construct(
         public readonly array $get,
