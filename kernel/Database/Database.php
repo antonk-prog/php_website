@@ -23,6 +23,7 @@ class Database implements DatabaseInterface {
         $username = $this->config->get('database.username');
         $password = $this->config->get('database.password');
         $charset = $this->config->get('database.charset');
+        // phpinfo();
         $this->pdo = new \PDO("$driver:host=$host;port=$port;dbname=$database;charset=$charset","$username","$password");
     }
 }
