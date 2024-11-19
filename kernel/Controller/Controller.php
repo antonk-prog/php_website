@@ -1,6 +1,7 @@
 <?php
 namespace App\Kernel\Controller;
 
+use App\Kernel\Database\DatabaseInterface;
 use App\Kernel\Http\RequestInterface;
 use App\Kernel\Session\SessionInterface;
 use App\Kernel\View\ViewInterface;
@@ -12,6 +13,8 @@ abstract class Controller {
     private RedirectInterface $redirect;
 
     private SessionInterface $session;
+
+    private DatabaseInterface $database; 
 
     public function request(): RequestInterface {
         return $this->request;
@@ -41,4 +44,13 @@ abstract class Controller {
     public function setSession(SessionInterface $session) : void {
         $this->session = $session;
     }
+
+    public function db(): DatabaseInterface {
+        return $this->database;
+    }
+
+    public function setDatabase(DatabaseInterface $database) : void {
+        $this->database = $database;
+    }
+
 }
