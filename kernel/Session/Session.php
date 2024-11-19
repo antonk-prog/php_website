@@ -7,7 +7,7 @@ class Session implements SessionInterface {
         session_start();
     }   
 
-    public function set(string $key, $value):void     {
+    public function set(string $key, $value):void {
         $_SESSION[$key] = $value; 
     }
 

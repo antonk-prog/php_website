@@ -3,12 +3,13 @@
 namespace App\Kernel\View;
 
 use App\Kernel\Exceptions\ViewNotFoundException;
-use App\Kernel\Session\Session;
+use App\Kernel\Session\SessionInterface;
+use App\Kernel\View\ViewInterface;
 
-class View {
+class View implements ViewInterface {
 
     public function __construct(
-        private Session $session
+        private SessionInterface $session
     ) {}
     public function page(string $name) : void {
         // в том файле, для которого будет вызываться include_once, можно будет обратиться к переменной view как к глобальной

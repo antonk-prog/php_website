@@ -2,8 +2,9 @@
 
 namespace App\Kernel\Validator;
 
+use App\Kernel\Validator\ValidatorInterface;
 
-class Validator {
+class Validator implements ValidatorInterface {
     private array $errors = [];
     private array $data = [];
     public function validate(array $data, array $rules) : bool {
@@ -31,7 +32,7 @@ class Validator {
         return empty($this->errors);
     }
 
-    public function errors() {
+    public function errors() :array  {
         return $this->errors;
     }
 
